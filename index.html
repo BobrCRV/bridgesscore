@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Записанные клики</title>
+  <!-- Подключаем Bootstrap для красивого оформления -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1 class="mb-4">Записанные клики</h1>
+    <table class="table table-bordered table-striped" id="clicksTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Название</th>
+          <th>Тег</th>
+          <th>ID</th>
+          <th>Класс</th>
+          <th>Текст</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    // Загружаем данные из файла clicks.json
+    fetch("clicks.json")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        const tbody = document.getElementById("clicksTable").querySelector("tbody");
+        data.forEach((click, index) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${index}</td>
+            <td>${click.name}</td>
+            <td>${click.tag}</td>
+            <td>${click.id}</td>
+            <td>${click.class}</td>
+            <td>${click.text}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(error => console.error("Ошибка при загрузке данных:", error));
+  </script>
+</body>
+</html>
+
